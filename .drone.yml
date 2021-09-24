@@ -15,6 +15,7 @@ steps:
     password:
       from_secret: docker_password
     repo: gmetrixr/baseimage
+    context: context
     dockerfile: context/Dockerfile
     tags:
     - ${DRONE_BRANCH//\//-}-v1
