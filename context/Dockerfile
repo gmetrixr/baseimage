@@ -15,8 +15,10 @@ RUN apt-get update \
     && mkdir -p /src && chown node /src \
     && mkdir -p /cloud && chown node /cloud \
     && mkdir -p /build && chown node /build \
+    && npm install -g npm@9.4.0 \
     && npm install -g pnpm \
     # upgrade pnpm to latest version
+    && pnpm setup \
     && pnpm add -g pnpm
 
 USER node
