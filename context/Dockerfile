@@ -1,10 +1,10 @@
-FROM node:16.10.0-bullseye
+FROM node:18.13.0-bullseye
 
 #Use an entrypoint that simply lists out all commands sent to it
 COPY entryPoint.sh /src/fab/entryPoint.sh
 ENTRYPOINT ["/src/fab/entryPoint.sh"]
 
-#node:16 image already has a user node with uid:gid 1000:1000
+#node:18 image already has a user node with uid:gid 1000:1000
 #We add it to sudo list
 RUN apt-get update \
     && apt-get install -y sudo less \
