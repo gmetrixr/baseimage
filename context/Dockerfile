@@ -24,7 +24,7 @@ USER node
 #&& source ~/.bashrc \ #doesn't work
 #Also, "pnpm add -g pnpm" needs be in "~" to work - it doesn't work from "/" dir (not sure why).
 RUN SHELL=bash pnpm setup \
-    && export PNPM_HOME="~/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" && mkdir -p ~/.local/share/pnpm \
+    && export PNPM_HOME="~/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" \
     && cd ~ && pnpm add -g pnpm
 
 RUN echo 'alias p="pnpm"' >> ~/.bashrc
