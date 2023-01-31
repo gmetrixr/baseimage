@@ -21,9 +21,11 @@ RUN apt-get update \
 USER node
 
 # upgrade pnpm to latest version
+#&& source ~/.bashrc \ #doesn't work
+#Also, "pnpm add -g pnpm" needs be in "~" to work - it doesn't work from "/" dir (not sure why).
 RUN SHELL=bash pnpm setup \
-    && source ~/.bashrc \
-    && pnpm add -g pnpm
+    && export PNPM_HOME="~/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" && mkdir -p ~/.local/share/pnpm \
+    && cd ~ && pnpm add -g pnpm
 
 RUN echo 'alias p="pnpm"' >> ~/.bashrc
 
