@@ -16,12 +16,14 @@ RUN apt-get update \
     && mkdir -p /cloud && chown node /cloud \
     && mkdir -p /build && chown node /build \
     && npm install -g npm@9.4.0 \
-    && npm install -g pnpm \
-    # upgrade pnpm to latest version
-    && pnpm setup \
-    && pnpm add -g pnpm
+    && npm install -g pnpm
 
 USER node
+
+# upgrade pnpm to latest version
+RUN SHELL=bash pnpm setup \
+    && source ~/.bashrc \
+    && pnpm add -g pnpm
 
 RUN echo 'alias p="pnpm"' >> ~/.bashrc
 
