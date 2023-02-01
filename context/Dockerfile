@@ -27,7 +27,7 @@ RUN SHELL=bash pnpm setup \
     && export PNPM_HOME="~/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" \
     && cd ~ && pnpm add -g pnpm
 
-RUN echo 'alias p="pnpm"' >> ~/.bashrc
+RUN echo '\nalias p="pnpm"' >> ~/.bashrc
 
 WORKDIR /src
 
