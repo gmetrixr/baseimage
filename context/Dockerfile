@@ -1,3 +1,4 @@
+FROM amacneil/dbmate:1.16.0 as dbmate
 FROM node:18.13.0-bullseye
 
 #Use an entrypoint that simply lists out all commands sent to it
@@ -17,6 +18,19 @@ RUN apt-get update \
     && mkdir -p /build && chown node /build \
     && npm install -g npm@9.4.0 \
     && npm install -g pnpm
+
+# dbmate specific
+COPY --from=dbmate /usr/local/bin/dbmate /usr/local/bin/dbmate
+
+RUN sudo apt-get update \
+    && sudo apt-get install -y lsb-release \
+    && sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - \
+    && sudo apt-get -y update \
+	&& sudo apt-get install -y --no-install-recommends \
+		postgresql-client-14 \
+    && sudo apt-get clean all \
+    && sudo rm -rf /var/lib/apt/lists/*
 
 USER node
 
