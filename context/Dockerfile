@@ -1,4 +1,4 @@
-FROM python:3.12.0a6-bullseye
+FROM python:python-3.7-bullseye
 
 RUN pip install pipenv
 
