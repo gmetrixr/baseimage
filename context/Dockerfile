@@ -1,36 +1,19 @@
-FROM node:18.16.0-bullseye
+FROM repo.gmetri.io/baseimage:node-18-dev-v1
 
-#Use an entrypoint that simply lists out all commands sent to it
-COPY entryPoint.sh /src/fab/entryPoint.sh
-ENTRYPOINT ["/src/fab/entryPoint.sh"]
+# We don't need the standalone Chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-#node:18 image already has a user node with uid:gid 1000:1000
-#We add it to sudo list
-RUN apt-get update \
-    && apt-get install -y sudo less \
-    && rm -rf /var/lib/apt/lists/* \
-    && usermod -aG sudo node \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-#Creating a few base folders that child dockers may need
-    && mkdir -p /src && chown node /src \
-    && mkdir -p /cloud && chown node /cloud \
-    && mkdir -p /build && chown node /build \
-    && npm install -g npm@9.4.0 \
-    && npm install -g pnpm
+# Installing chrome requires root
+USER root
 
+# Install Google Chrome Stable and fonts
+# Note: this installs the necessary libs to make the browser work with Puppeteer.
+RUN sudo apt-get update && sudo apt-get install curl gnupg -y \
+  && curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+  && sudo apt-get update \
+  && sudo apt-get install google-chrome-stable -y --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/*
+
+# Reverting privledge to user node
 USER node
-
-# upgrade pnpm to latest version
-#&& source ~/.bashrc \ #doesn't work
-#Also, "pnpm add -g pnpm" needs be in "~" to work - it doesn't work from "/" dir (not sure why).
-RUN SHELL=bash pnpm setup \
-    && export PNPM_HOME="~/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" \
-    && cd ~ && pnpm add -g pnpm
-
-RUN echo '\nalias p="pnpm"' >> ~/.bashrc
-
-WORKDIR /src
-
-#Allow image to be used standalone without any commands:
-CMD ["tail", "-f", "/dev/null"]
-#CMD ["sleep", "inf"]
