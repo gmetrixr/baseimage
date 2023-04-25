@@ -1,4 +1,4 @@
-FROM repo.gmetri.io/baseimage:node-18-dev-v1
+FROM gmetrixr/baseimage:node-18-dev-v2
 
 # We don't need the standalone Chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
