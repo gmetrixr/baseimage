@@ -1,7 +1,7 @@
 FROM postgres:14.6
 
 RUN apt-get update && \
-    apt-get install -y git make gcc && \
+    apt-get install -y git make gcc postgresql-server-dev-14 && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PG_CONFIG /usr/lib/postgresql/14/bin/pg_config
