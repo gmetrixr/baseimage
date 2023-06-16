@@ -1,4 +1,4 @@
-FROM node:18.16.0-bullseye
+FROM node:20.3.0-bullseye
 
 #Use an entrypoint that simply lists out all commands sent to it
 COPY entryPoint.sh /src/fab/entryPoint.sh
