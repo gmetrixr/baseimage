@@ -1,6 +1,4 @@
-FROM python:3.8.16-bullseye
-
-RUN pip install pipenv
+FROM python:3.8-bullseye
 
 WORKDIR /src
 
