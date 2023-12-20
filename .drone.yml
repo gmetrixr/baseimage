@@ -18,7 +18,7 @@ steps:
     context: context
     dockerfile: context/Dockerfile
     tags:
-    - ${DRONE_BRANCH//\//-}-v2
+    - ${DRONE_BRANCH//\//-}-v3
 
 trigger:
   event: [push]

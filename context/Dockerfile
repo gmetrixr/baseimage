@@ -1,4 +1,4 @@
-FROM node:18.16.0-bullseye
+FROM node:18.19.0-bullseye
 
 #Use an entrypoint that simply lists out all commands sent to it
 COPY entryPoint.sh /src/fab/entryPoint.sh
@@ -15,7 +15,7 @@ RUN apt-get update \
     && mkdir -p /src && chown node /src \
     && mkdir -p /cloud && chown node /cloud \
     && mkdir -p /build && chown node /build \
-    && npm install -g npm@9.4.0 \
+    && npm install -g npm \
     && npm install -g pnpm
 
 USER node
