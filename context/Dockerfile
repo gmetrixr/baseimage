@@ -7,7 +7,13 @@ ENTRYPOINT ["/src/fab/entryPoint.sh"]
 #node:18 image already has a user node with uid:gid 1000:1000
 #We add it to sudo list
 RUN apt-get update \
-    && apt-get install -y sudo less git \
+    && apt-get install -y \
+        sudo \
+        less \
+#Neededd for git commits during builds
+        git \
+#Needed for triggering next step of builds
+        curl \ 
     && rm -rf /var/lib/apt/lists/* \
     && usermod -aG sudo node \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
